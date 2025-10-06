@@ -1,0 +1,99 @@
+
+\\Package ContaBancaria
+\\Arquivo ContaBancaria
+package ContaBancaria;
+
+public class ContaBancaria {
+   private int numero;
+   private String titular;
+   private double saldo;
+
+   public ContaBancaria(int numero, String titular) {
+       this.numero = numero;
+       this.titular = titular;
+       this.saldo = 0.0;
+   }
+
+   public ContaBancaria(int numero, String titular, double depositoInicial) {
+       this.numero = numero;
+       this.titular = titular;
+       deposito(depositoInicial);
+   }
+
+   public int getNumero() {
+       return numero;
+   }
+
+   public String getTitular() {
+       return titular;
+   }
+
+   public void setTitular(String titular) {
+       this.titular = titular;
+   }
+
+   public double getSaldo() {
+       return saldo;
+   }
+
+   public void deposito(double quantia) {
+       saldo += quantia;
+   }
+
+   public void saque(double quantia) {
+       double taxa = 5.00;
+       saldo -= (quantia + taxa);
+   }
+
+   public String toString() {
+       return "Conta " + numero + ", Titular: " + titular + ", Saldo: $ " + String.format("%.2f", saldo);
+   }
+}
+
+\\Arquivo Main (Principal)
+package ContaBancaria;
+import java.util.Scanner;
+
+public class Main {
+   public static void main(String[] args) {
+       Scanner sc = new Scanner(System.in);
+
+       System.out.print("Informe o número da conta: ");
+       int numero = sc.nextInt();
+       sc.nextLine();
+
+       System.out.print("Informe o titular da conta: ");
+       String titular = sc.nextLine();
+
+       System.out.print("Possui depósito inicial (s/n)? ");
+       char resposta = sc.next().charAt(0);
+
+       ContaBancaria conta;
+
+       if (resposta == 's' || resposta == 'S') {
+           System.out.print("Informe o valor de depósito inicial: ");
+           double depositoInicial = sc.nextDouble();
+           conta = new ContaBancaria(numero, titular, depositoInicial);
+       } else {
+           conta = new ContaBancaria(numero, titular);
+       }
+
+       System.out.println("\nDados da conta:");
+       System.out.println(conta.toString());
+
+       System.out.print("\nInforme o valor para depósito: ");
+       double deposito = sc.nextDouble();
+       conta.deposito(deposito);
+       System.out.println("Dados da conta atualizados:");
+       System.out.println(conta.toString());
+
+       System.out.print("\nInforme o valor para saque: ");
+       double saque = sc.nextDouble();
+       conta.saque(saque);
+       System.out.println("Dados da conta atualizados:");
+       System.out.println(conta.toString());
+
+       sc.close();
+   }
+}
+
